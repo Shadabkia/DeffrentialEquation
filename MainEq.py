@@ -1,4 +1,6 @@
 from numpy import random
+import numpy.random as npr
+from Member import Member
 
 # DifferentialEquation
 # Equation: y'- 1/2y - x^4/16 + x^3/2 + x^2/4 - x = 0
@@ -8,9 +10,6 @@ from numpy import random
 # y' = 4ax3 + 3mx2 + 2bx + c
 # y = ax4 + mx3 + bx2 + cx + d,
 # y' - 1/2y = -a/2x4 + (8a-m)/2x3 + (6m-b)/2x2 + (4b-c)/2x + c-d/2
-import numpy.random as npr
-
-from Member import Member
 
 eps = 10 ** -16
 step = 0.1
@@ -44,6 +43,7 @@ def initPopulation(n):
     populationArr = random.normal(size=(n, 5))
     for i in range(0, n):
         member = Member(populationArr[i], fitness(populationArr[i]))
+        print(member.fitness)
         population.append(member)
 
 
@@ -53,9 +53,23 @@ def selectOne(population):
     return population[npr.choice(len(population), p=selection_probs)]
 
 
-for i in population:
-    print(i.fitness)
+def replaceOffspring(offspring):
+    sorted_pop = sorted(population, key=lambda x: x.fitness)
+    sorted_pop.remove(sorted_pop[0])
+    sorted_pop.append(offspring)
+    return sorted_pop
+
+
+
+
 
 initPopulation(n_population)
-print(random.normal(size=(n_population, 5)))
-print(selectOne(population).fitness)
+print("")
+print(fitness([0,0,0,0,0]))
+print("")
+print(replaceOffspring([0,0,0,0,0])[9].fitness)
+# print(random.normal(size=(n_population, 5)))
+# print(selectOne(population).fitness)
+
+
+
